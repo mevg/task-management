@@ -21,12 +21,16 @@ import { UpdateTaskStatus } from './dtos/update-task-status.dto';
 import { TaskStatus } from './task-status.enum';
 import { Task } from './task.entity';
 import { TasksService } from './tasks.service';
+import { Logger } from '@nestjs/common';
 
 @ApiTags('tasks')
 @Controller('tasks')
 @UseGuards(AuthGuard())
 export class TasksController {
-	constructor(private taskService: TasksService) {}
+    private logger: Logger;
+	constructor(private taskService: TasksService) {
+        this.logger = new Logger('TaskController');
+    }
 
 	@Get()
 	async getTasks(
@@ -51,6 +55,7 @@ export class TasksController {
 		createTaskDto: CreateTaskDto,
 		@GetUser() user: User,
 	): Promise<Task> {
+        this.logger.verbose(`User ${user.username} creating a new task. Data: ${JSON.stringify(createTaskDto)}`)
 		return await this.taskService.createTask(createTaskDto, user);
 	}
 

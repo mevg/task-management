@@ -1,11 +1,14 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { TransformInterceptor } from './transform.interceptor';
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule);
+  const logger = new Logger()
+	const app = await NestFactory.create(AppModule,{
+    logger: ['log', 'error'],
+  });
 
   app.useGlobalPipes(new ValidationPipe()) 
   app.useGlobalInterceptors(new TransformInterceptor());
@@ -21,5 +24,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
 	await app.listen(3000);
+  logger.log('Application running on port 3000');
 }
 bootstrap();
