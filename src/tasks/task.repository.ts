@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import {EntityRepository, Repository} from 'typeorm'
+import {EntityRepository, Repository} from 'typeorm';
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { GetTaskFilterDto } from './dtos/get-task-filter.dto';
 import { TaskStatus } from './task-status.enum';
 import { Task } from './task.entity';
 
-@Injectable()
+@EntityRepository(Task)
 export class TaskRepository extends Repository<Task> {
 
 	async getTasks(filterDto: GetTaskFilterDto): Promise<Task[]>{

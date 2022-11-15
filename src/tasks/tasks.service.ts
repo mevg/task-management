@@ -10,6 +10,7 @@ import { Task } from './task.entity';
 export class TasksService {
 
     constructor(
+		@InjectRepository(TaskRepository)
         private taskRepository: TaskRepository
     ){}
 	getAllTasks(filterDto: GetTaskFilterDto): Promise<Task[]> {
