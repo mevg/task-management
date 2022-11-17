@@ -10,6 +10,7 @@ async function bootstrap() {
     logger: ['log', 'error'],
   });
 
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe()) 
   app.useGlobalInterceptors(new TransformInterceptor());
 
